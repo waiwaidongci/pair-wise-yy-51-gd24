@@ -2,6 +2,13 @@
   "page": 1,
   "pageSize": 20,
   "total": 2,
+  "yards": [
+    { "id": "Y-BJD", "name": "宝鸡东编组站", "segmentId": "S-203", "capacity": 8, "capacityVerified": true, "capacitySource": "核定" },
+    { "id": "Y-ZZB", "name": "郑州北编组站", "segmentId": "S-207", "capacity": 6, "capacityVerified": true, "capacitySource": "核定" },
+    { "id": "Y-XZB", "name": "徐州北编组站", "segmentId": "S-211", "capacity": 4, "capacityVerified": true, "capacitySource": "核定" },
+    { "id": "Y-LYD", "name": "洛阳东区段站", "segmentId": "S-304" },
+    { "id": "Y-HFD", "name": "合肥东编组站", "segmentId": "S-309", "capacity": 10, "capacityVerified": true, "capacitySource": "核定" }
+  ],
   "items": [
     {
       "id": "HG-260929-018", "cargo": "甲醇（UN1230）", "hazardClass": "第 3 类 · 易燃液体", "trainCode": "X8021", "origin": "兰州西", "destination": "南京东", "tonnage": 1860, "wagonCount": 28, "permit": "甘危运〔2026〕0831 号", "permission": "待补充", "score": 78, "updatedAt": "今天 16:42",
