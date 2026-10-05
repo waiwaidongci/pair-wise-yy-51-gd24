@@ -21,8 +21,13 @@ import type { RoutePackage } from '../types'
       <mat-tab-group>
         <mat-tab label="待处理意见"><section class="card comment-list">
           @for (comment of (state$ | async)?.comments || []; track comment.id) {
-            <div class="comment"><div class="comment-head"><div><b>{{comment.role}} · {{comment.author}}</b><small>{{comment.segmentId}} · {{comment.id}}</small></div><span>{{comment.status}}</span></div><p>{{comment.content}}</p>
-            <div class="actions"><button mat-stroked-button color="warn" (click)="resolve(comment.id,'已退回')">退回补件</button><button mat-flat-button color="primary" (click)="resolve(comment.id,'已接受')">接受条件</button></div></div>
+            <div class="comment" [class.invalid]="comment.status === '已失效'"><div class="comment-head"><div><b>{{comment.role}} · {{comment.author}}</b><small>{{comment.segmentId}} · {{comment.id}}@if (comment.reRecordId) { · 重算于 {{comment.reRecordId}} }@if (comment.replaces) { · 接替 {{comment.replaces}} }</small></div><span [class.risk-high]="comment.status === '已失效'">{{comment.status}}</span></div><p>{{comment.content}}</p>
+            @if (comment.basis) { <small class="basis">依据：{{comment.basis}}（原依据保留）</small> }
+            @if (comment.supersededBy) { <small class="replaced">已失效 → 由 {{comment.supersededBy}} 重算接替</small> }
+            @if (comment.status !== '已失效') {
+              <div class="actions"><button mat-stroked-button color="warn" (click)="resolve(comment.id,'已退回')">退回补件</button><button mat-flat-button color="primary" (click)="resolve(comment.id,'已接受')">接受条件</button></div>
+            }
+            </div>
           }
         </section></mat-tab>
         <mat-tab label="发表区段意见"><section class="card form-card">
@@ -39,7 +44,7 @@ import type { RoutePackage } from '../types'
     </main>
   `,
   styles: [`
-    h2{margin:0}.comment-list{padding:0}.comment{padding:18px;border-bottom:1px solid #e7ebf1}.comment-head{display:flex;justify-content:space-between}.comment-head small{display:block;color:#7a8798;margin-top:4px}.comment p{color:#475569}.actions{display:flex;gap:10px}.actions button{margin:8px 8px 0 0}.form-card{max-width:780px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.two mat-form-field,.wide{width:100%}.timeline{padding:8px 18px}.timeline>div{position:relative;padding:14px 10px 14px 28px;border-left:2px solid #cbd5e1}.timeline i{position:absolute;width:9px;height:9px;border-radius:50%;background:#2563eb;left:-5.5px;top:20px}.timeline p{color:#7a8798;margin:5px 0 0}
+    h2{margin:0}.comment-list{padding:0}.comment{padding:18px;border-bottom:1px solid #e7ebf1}.comment.invalid{background:#fef2f2;border-left-color:#dc2626;opacity:.85}.comment-head{display:flex;justify-content:space-between}.comment-head small{display:block;color:#7a8798;margin-top:4px}.comment p{color:#475569}.basis{display:block;color:#94a3b8;margin-top:6px}.replaced{display:block;color:#dc2626;margin-top:6px}.actions{display:flex;gap:10px}.actions button{margin:8px 8px 0 0}.form-card{max-width:780px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.two mat-form-field,.wide{width:100%}.timeline{padding:8px 18px}.timeline>div{position:relative;padding:14px 10px 14px 28px;border-left:2px solid #cbd5e1}.timeline i{position:absolute;width:9px;height:9px;border-radius:50%;background:#2563eb;left:-5.5px;top:20px}.timeline p{color:#7a8798;margin:5px 0 0}
     @media(max-width:620px){.two{grid-template-columns:1fr}}
   `],
 })
